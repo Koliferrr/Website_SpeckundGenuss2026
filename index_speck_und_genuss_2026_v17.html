@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2a1208">
+  <title>Speck & Genuss 2026</title>
+
+  <style>
+    :root {
+      /* Farbpalette angelehnt an den Speck-&-Genuss-Flyer */
+      --wine: #5f91ad;          /* Blau aus Vereinslogo / Himmel */
+      --wine-dark: #3f6f89;     /* dunkleres Akzentblau */
+      --brown: #1b1b1a;         /* fast schwarzer Flyer-Text */
+      --cream: #edf1f3;         /* helles Graublau */
+      --cream-2: #dfe5e8;       /* zweiter heller Hintergrundton */
+      --gold: #c9b19c;          /* warmer Berg-/Speckton */
+      --text: #262626;
+      --muted: #686864;         /* Wiesen-/Steingrau */
+      --meadow: #777770;
+      --stone: #9a9893;
+      --shadow: 0 18px 50px rgba(26, 30, 32, .14);
+      --radius: 22px;
+
+      /* Länge des weichen Übergangs zwischen Titelbild und Menü */
+      --transition-depth: 42svh;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--brown);
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      color: var(--text);
+      background: var(--cream);
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* ---------------------------------------------------------
+       STARTSEITE + SEHR WEICHER SCROLL-ÜBERGANG
+       Hintergrundbild: bilder/titelbild.png
+       --------------------------------------------------------- */
+    .hero {
+      position: relative;
+      min-height: calc(100svh + var(--transition-depth));
+      background: #0e1214;
+    }
+
+    .hero-scene {
+      --hero-progress: 0;
+      --hero-content-progress: 0;
+
+      position: sticky;
+      top: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+      overflow: hidden;
+      background: #0e1214;
+    }
+
+    /* Hintergrundbild:
+       nur GPU-freundliche Transform-Animation, kein dynamischer Blur */
+    .hero-scene::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -4;
+
+      /*
+       * Das Bild skaliert proportional mit dem verfügbaren Bildschirm.
+       * "cover" füllt den Hero vollständig, ohne das Bild zu verzerren.
+       */
+      background-image: url("bilder/titelbild.png");
+      background-repeat: no-repeat;
+      background-position: center 48%;
+      background-size: cover;
+
+      /*
+       * Nur noch ein sehr dezenter Scroll-Zoom.
+       * Dadurch bleibt auf kleinen Displays mehr vom Motiv sichtbar.
+       */
+      transform:
+        translate3d(0, calc(var(--hero-progress) * -12px), 0)
+        scale(calc(1 + var(--hero-progress) * .035));
+      transform-origin: center center;
+
+      filter: brightness(.64) saturate(.88) contrast(1.10);
+      will-change: transform;
+    }
+
+    /* Dauerhafter Filter für gute Lesbarkeit bei Sonne */
+    .hero-photo {
+      display: none;
+    }
+
+    .hero-scene::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 50% 43%,
+          rgba(0,0,0,.16) 0%,
+          rgba(0,0,0,.22) 26%,
+          rgba(0,0,0,.08) 53%,
+          rgba(0,0,0,0) 70%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(5, 9, 12, .18) 0%,
+          rgba(5, 9, 12, .23) 24%,
+          rgba(5, 9, 12, .38) 62%,
+          rgba(5, 9, 12, .66) 100%
+        );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      width: min(920px, 100%);
+      padding: 34px 20px 132px;
+      text-align: center;
+      color: white;
+
+      opacity: calc(1 - var(--hero-content-progress));
+      transform:
+        translate3d(0, calc(var(--hero-content-progress) * -58px), 0)
+        scale(calc(1 - var(--hero-content-progress) * .035));
+      will-change: transform, opacity;
+    }
+
+    /* Weiche Schattenzone nur hinter dem Text */
+    .hero-content::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      width: min(94vw, 920px);
+      height: min(72vw, 560px);
+      border-radius: 50%;
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(0,0,0,.40) 0%,
+          rgba(0,0,0,.28) 38%,
+          rgba(0,0,0,.12) 61%,
+          rgba(0,0,0,0) 78%
+        );
+      filter: blur(18px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-kicker {
+      font-size: clamp(.8rem, 1.6vw, 1rem);
+      font-weight: 700;
+      letter-spacing: .36em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      opacity: .95;
+      text-shadow: 0 3px 12px rgba(0,0,0,.48);
+    }
+
+    .hero h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.35rem, 10.3vw, 8.2rem);
+      line-height: .9;
+      font-weight: 700;
+      letter-spacing: -.04em;
+      text-shadow:
+        0 5px 15px rgba(0,0,0,.46),
+        0 16px 36px rgba(0,0,0,.24);
+    }
+
+    .hero h1 span {
+      display: block;
+      margin-top: 14px;
+      color: #edf2f5;
+      font-size: .54em;
+      letter-spacing: .10em;
+    }
+
+    .hero-subtitle {
+      max-width: 760px;
+      margin: 26px auto 0;
+      font-size: clamp(1rem, 2.1vw, 1.32rem);
+      font-weight: 500;
+      line-height: 1.58;
+      opacity: .98;
+      text-shadow: 0 3px 12px rgba(0,0,0,.55);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: max(30px, env(safe-area-inset-bottom));
+      z-index: 5;
+
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      color: white;
+      text-decoration: none;
+      font-size: .76rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+
+      opacity: calc(1 - var(--hero-content-progress) * 1.15);
+      transform:
+        translateX(-50%)
+        translateY(calc(var(--hero-content-progress) * -18px));
+      will-change: transform, opacity;
+    }
+
+    .scroll-label-wrap {
+      height: 1.35em;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .scroll-label {
+      display: inline-block;
+      text-shadow: 0 2px 8px rgba(0,0,0,.50);
+    }
+
+    .scroll-cue .mouse {
+      width: 28px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, .90);
+      border-radius: 20px;
+      display: flex;
+      justify-content: center;
+      padding-top: 8px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.28);
+    }
+
+    .scroll-cue .mouse::before {
+      content: "";
+      width: 4px;
+      height: 9px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, .96);
+      animation: scrollDot 1.55s ease-in-out infinite;
+    }
+
+    @keyframes scrollDot {
+      0%   { transform: translateY(0); opacity: 0; }
+      25%  { opacity: 1; }
+      70%  { opacity: 1; }
+      100% { transform: translateY(14px); opacity: 0; }
+    }
+
+    /* Alte Curtain-Fläche wird nicht mehr benötigt. */
+    .hero-curtain {
+      display: none;
+    }
+
+    /* ---------------------------------------------------------
+       MENÜ
+       --------------------------------------------------------- */
+    .menu-page {
+      position: relative;
+      z-index: 6;
+      isolation: isolate;
+
+      /*
+       * Die Menüseite beginnt bereits während das Hero noch sticky ist.
+       * So läuft der Übergang direkt mit dem echten Scrollen mit.
+       */
+      margin-top: calc(-1 * var(--transition-depth));
+      min-height: 100vh;
+      padding:
+        calc(var(--transition-depth) + 52px)
+        18px
+        80px;
+
+      background: transparent;
+    }
+
+    /* Transparenter -> heller Verlauf.
+       Dadurch gibt es keinen sichtbaren "Schnitt". */
+    .menu-page::before {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: calc(var(--transition-depth) + 3px);
+      pointer-events: none;
+
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(237, 241, 243, 0) 0%,
+          rgba(237, 241, 243, .015) 10%,
+          rgba(237, 241, 243, .055) 22%,
+          rgba(237, 241, 243, .14) 36%,
+          rgba(237, 241, 243, .30) 50%,
+          rgba(237, 241, 243, .52) 64%,
+          rgba(237, 241, 243, .76) 78%,
+          rgba(237, 241, 243, .93) 91%,
+          var(--cream) 100%
+        );
+    }
+
+    /* Ab dem Ende des Übergangs normale Menüfläche */
+    .menu-page::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      left: 0;
+      right: 0;
+      top: var(--transition-depth);
+      bottom: 0;
+      pointer-events: none;
+
+      background:
+        radial-gradient(circle at 12% 0%, rgba(95, 145, 173, .13), transparent 32%),
+        radial-gradient(circle at 92% 25%, rgba(201, 177, 156, .10), transparent 28%),
+        var(--cream);
+    }
+
+    .menu-shell {
+      width: min(1080px, 100%);
+      margin: 0 auto;
+    }
+
+    .menu-heading {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      color: var(--wine);
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .menu-heading h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.1rem, 6vw, 4.4rem);
+      line-height: 1.05;
+      color: var(--brown);
+    }
+
+    .menu-heading p {
+      margin: 14px auto 0;
+      max-width: 650px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .language-select-wrap {
+      width: min(520px, 100%);
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+
+    .language-label {
+      margin-bottom: 9px;
+      color: #68757b;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .language-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      width: 100%;
+      padding: 6px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      background: rgba(237, 241, 243, .94);
+      border: 1px solid rgba(63, 78, 87, .14);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(35, 43, 48, .10);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .lang-btn {
+      min-width: 0;
+      min-height: 62px;
+      border: 0;
+      background: transparent;
+      color: var(--brown);
+      padding: 9px 8px 8px;
+      border-radius: 15px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition:
+        background .25s ease,
+        color .25s ease,
+        transform .2s ease,
+        box-shadow .25s ease;
+    }
+
+    .lang-btn:hover {
+      background: rgba(95, 145, 173, .11);
+    }
+
+    .lang-btn:active {
+      transform: scale(.975);
+    }
+
+    .lang-btn.active {
+      background: var(--wine);
+      color: white;
+      box-shadow: 0 6px 16px rgba(63, 111, 137, .24);
+    }
+
+    .lang-name {
+      max-width: 100%;
+      text-align: center;
+      font-size: .94rem;
+      font-weight: 750;
+      line-height: 1.05;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lang-code {
+      min-width: 30px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(53, 67, 74, .08);
+      color: #66737a;
+      text-align: center;
+      font-size: .62rem;
+      font-weight: 900;
+      letter-spacing: .12em;
+      line-height: 1.35;
+    }
+
+    .lang-btn.active .lang-code {
+      background: rgba(255, 255, 255, .16);
+      color: rgba(255, 255, 255, .94);
+    }
+
+    .order-info {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(135deg, #e3eaee, #d4dde2);
+      border: 1px solid rgba(75, 96, 108, .12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+      margin-bottom: 54px;
+    }
+
+    .order-info-icon {
+      font-size: 2rem;
+    }
+
+    .order-info strong {
+      display: block;
+      color: var(--wine);
+      margin-bottom: 4px;
+      font-size: 1.05rem;
+    }
+
+    .order-info span {
+      color: #51585c;
+      line-height: 1.55;
+    }
+
+    .section {
+      margin-top: 64px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(52, 60, 64, .18);
+    }
+
+    .section-header h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--brown);
+      font-size: clamp(1.8rem, 5vw, 2.65rem);
+    }
+
+    .section-header span {
+      color: var(--wine);
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .72rem;
+    }
+
+    /* Getränke */
+    .drink-list {
+      background: rgba(255, 255, 255, .90);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 8px 22px;
+    }
+
+    .drink-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 17px 3px;
+      border-bottom: 1px dashed #c7cdd0;
+    }
+
+    .drink-item:last-child {
+      border-bottom: none;
+    }
+
+    .drink-subheading {
+      padding: 24px 3px 10px;
+      color: var(--wine-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(52, 60, 64, .14);
+    }
+
+    .wine-item {
+      padding: 17px 3px;
+      border-bottom: 1px dashed #c7cdd0;
+    }
+
+    .wine-name {
+      color: var(--brown);
+      font-size: 1.04rem;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+
+    .wine-options {
+      display: grid;
+      gap: 7px;
+      padding-left: 12px;
+    }
+
+    .wine-option {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: .94rem;
+    }
+
+    .wine-option .price {
+      font-size: 1rem;
+    }
+
+    .drink-name {
+      color: var(--brown);
+      font-size: 1.02rem;
+      line-height: 1.4;
+    }
+
+    .price {
+      color: var(--wine);
+      font-weight: 800;
+      white-space: nowrap;
+      font-size: 1.05rem;
+    }
+
+    /* Speisen */
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .food-card {
+      background: rgba(255, 255, 255, .92);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(54, 64, 69, .08);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .food-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 24px 60px rgba(31, 39, 43, .19);
+    }
+
+    .food-image {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: #d7dde0;
+    }
+
+    .food-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .6s ease;
+    }
+
+    .food-image.missing-image {
+      position: relative;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(95,145,173,.13), rgba(201,177,156,.18)),
+        #dfe5e8;
+    }
+
+    .food-image.missing-image::after {
+      content: "FOTO";
+      color: rgba(54, 68, 75, .52);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+    }
+
+    .food-card:hover .food-image img {
+      transform: scale(1.035);
+    }
+
+    .food-body {
+      padding: 21px 22px 24px;
+    }
+
+    .food-title {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      gap: 14px;
+    }
+
+    .food-title h4 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.25rem, 3vw, 1.55rem);
+      line-height: 1.2;
+      color: var(--brown);
+    }
+
+    .food-desc {
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.62;
+      font-size: .94rem;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 800;
+      background: #e2e7e9;
+      color: #4f5c62;
+    }
+
+    .badge.spicy {
+      background: #ead8cc;
+      color: #7b4939;
+    }
+
+    .badge.limited {
+      background: var(--wine);
+      color: white;
+    }
+
+    footer {
+      padding: 70px 20px 36px;
+      text-align: center;
+      color: #6b7377;
+      font-size: .9rem;
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition:
+        opacity .75s cubic-bezier(.2, .7, .2, 1),
+        transform .75s cubic-bezier(.2, .7, .2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ---------------------------------------------------------
+       RESPONSIVE
+       --------------------------------------------------------- */
+    @media (max-width: 760px) {
+      :root {
+        --transition-depth: 30svh;
+      }
+
+      /*
+       * Smartphone:
+       * eigenes 9:16-Hochformatbild desselben Motivs.
+       * Dadurch ist die komplette Startseite bildfüllend und wirkt
+       * wie ein echtes mobiles Hero statt wie ein Querformat-Banner.
+       */
+      .hero {
+        min-height: calc(100svh + var(--transition-depth));
+      }
+
+      .hero-scene {
+        background: #0d1216;
+      }
+
+      .hero-scene::before {
+        inset: 0;
+        background-image: url("bilder/titelbild-mobile.png");
+        background-size: cover;
+        background-position: center center;
+
+        transform:
+          translate3d(0, calc(var(--hero-progress) * -9px), 0)
+          scale(calc(1.01 + var(--hero-progress) * .022));
+
+        filter:
+          brightness(.58)
+          saturate(.88)
+          contrast(1.10);
+
+        will-change: transform;
+      }
+
+      .hero-photo {
+        display: none;
+      }
+
+      .hero-scene::after {
+        background:
+          radial-gradient(
+            ellipse at 50% 38%,
+            rgba(0,0,0,.06) 0%,
+            rgba(0,0,0,.16) 34%,
+            rgba(0,0,0,0) 66%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(5, 9, 12, .12) 0%,
+            rgba(5, 9, 12, .18) 30%,
+            rgba(5, 9, 12, .32) 62%,
+            rgba(5, 9, 12, .58) 100%
+          );
+      }
+
+      .hero-content {
+        padding: 34px 18px 118px;
+      }
+
+      .hero-content::before {
+        width: min(110vw, 620px);
+        height: min(82vw, 340px);
+        top: 46%;
+        filter: blur(14px);
+      }
+
+      .hero-content {
+        padding: 30px 18px 118px;
+      }
+
+      .hero-content::before {
+        width: min(104vw, 680px);
+        height: min(92vw, 400px);
+        filter: blur(16px);
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 17.5vw, 5.4rem);
+        line-height: .92;
+      }
+
+      .hero-subtitle {
+        max-width: 32ch;
+        font-size: 1rem;
+      }
+
+      .menu-page {
+        padding:
+          calc(var(--transition-depth) + 44px)
+          14px
+          60px;
+      }
+
+      .food-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .section {
+        margin-top: 50px;
+      }
+
+      .section-header {
+        align-items: center;
+      }
+
+      .order-info {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 10px;
+        margin-bottom: 44px;
+      }
+
+      .language-select-wrap {
+        margin-bottom: 30px;
+      }
+
+      .language-bar {
+        top: 8px;
+      }
+
+      .lang-btn {
+        min-height: 58px;
+        padding: 8px 5px 7px;
+        gap: 4px;
+      }
+
+      .lang-name {
+        font-size: clamp(.72rem, 3.4vw, .86rem);
+      }
+
+      .lang-code {
+        min-width: 27px;
+        padding: 2px 6px;
+        font-size: .58rem;
+      }
+
+      .language-label {
+        font-size: .66rem;
+        letter-spacing: .10em;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .hero-scene::before {
+        background-position: center center;
+      }
+
+      .hero-content {
+        padding-top: 18px;
+        padding-bottom: 106px;
+      }
+
+      .hero-content {
+        padding-bottom: 105px;
+      }
+
+      .hero-subtitle {
+        font-size: .95rem;
+      }
+
+      .drink-list {
+        padding: 5px 15px;
+      }
+
+      .drink-item {
+        gap: 10px;
+        padding: 15px 0;
+      }
+
+      .drink-name {
+        font-size: .96rem;
+      }
+
+      .wine-name {
+        font-size: .98rem;
+      }
+
+      .wine-options {
+        padding-left: 6px;
+      }
+
+      .wine-option {
+        font-size: .9rem;
+        gap: 10px;
+      }
+
+      .price {
+        font-size: 1rem;
+      }
+
+      .food-body {
+        padding: 18px 17px 21px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      :root {
+        --transition-depth: 12svh;
+      }
+
+      .hero-scene::before {
+        transform: scale(1);
+        background-size: cover;
+      }
+
+      .hero-content,
+      .scroll-cue,
+      .menu-shell {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       TITELSEITE
+       ========================================================= -->
+  <section class="hero" id="start">
+    <div class="hero-scene">
+      <div class="hero-photo" aria-hidden="true"></div>
+
+      <div class="hero-content">
+      <div class="hero-kicker"
+           data-de="Willkommen"
+           data-it="Benvenuti"
+           data-en="Welcome">Willkommen</div>
+
+      <h1>
+        Speck & Genuss
+        <span>2026</span>
+      </h1>
+
+      <p class="hero-subtitle"
+         data-de="Südtiroler Spezialitäten, gutes Essen und gemütliches Beisammensein."
+         data-it="Specialità altoatesine, buon cibo e piacevoli momenti in compagnia."
+         data-en="South Tyrolean specialties, good food and a welcoming atmosphere.">
+        Südtiroler Spezialitäten, gutes Essen und gemütliches Beisammensein.
+      </p>
+    </div>
+
+    <a class="scroll-cue"
+       href="#menu"
+       aria-label="Zur Speisekarte scrollen"
+       data-aria-de="Zur Speisekarte scrollen"
+       data-aria-it="Scorri fino al menu"
+       data-aria-en="Scroll to the menu">
+      <span class="scroll-label-wrap" aria-hidden="true">
+        <span class="scroll-label"
+              data-de="Entdecken"
+              data-it="Scopri"
+              data-en="Discover">Entdecken</span>
+      </span>
+      <span class="mouse" aria-hidden="true"></span>
+    </a>
+
+      <div class="hero-curtain" aria-hidden="true"></div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================
+       PREISLISTE
+       ========================================================= -->
+  <main class="menu-page" id="menu">
+    <div class="menu-shell">
+
+      <header class="menu-heading reveal">
+        <div class="eyebrow">Speck & Genuss 2026</div>
+        <h2>Preisliste / Listino / Menu</h2>
+        <p
+          data-de="Wählen Sie Ihre Sprache und entdecken Sie unsere Getränke und Speisen."
+          data-it="Scegliete la vostra lingua e scoprite le nostre bevande e specialità."
+          data-en="Choose your language and discover our drinks and food."
+        >
+          Wählen Sie Ihre Sprache und entdecken Sie unsere Getränke und Speisen.
+        </p>
+      </header>
+
+      <!-- Sprachauswahl -->
+      <div class="language-select-wrap reveal">
+        <div class="language-label">Sprache · Lingua · Language</div>
+        <div class="language-bar" role="group" aria-label="Sprache / Lingua / Language">
+          <button class="lang-btn active" data-lang="de" onclick="setLang('de', this)" aria-label="Deutsch">
+            <span class="lang-name">Deutsch</span>
+            <span class="lang-code">DE</span>
+          </button>
+          <button class="lang-btn" data-lang="it" onclick="setLang('it', this)" aria-label="Italiano">
+            <span class="lang-name">Italiano</span>
+            <span class="lang-code">IT</span>
+          </button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en', this)" aria-label="English">
+            <span class="lang-name">English</span>
+            <span class="lang-code">GB</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bestellhinweis -->
+      <div class="order-info reveal">
+        <div class="order-info-icon">🛎️</div>
+        <div>
+          <strong
+            data-de="So bestellen Sie:"
+            data-it="Come ordinare:"
+            data-en="How to order:"
+          >So bestellen Sie:</strong>
+
+          <span
+            data-de="Getränke und Speisen können direkt an der Kasse oder bei unserem Personal bestellt werden. Wir freuen uns auf Sie!"
+            data-it="Le bevande e i piatti possono essere ordinati direttamente alla cassa o presso il nostro personale. Vi aspettiamo!"
+            data-en="Drinks and food can be ordered directly at the cash desk or from our staff. We look forward to serving you!"
+          >
+            Getränke und Speisen können direkt an der Kasse oder bei unserem Personal bestellt werden. Wir freuen uns auf Sie!
+          </span>
+        </div>
+      </div>
+
+
+      <!-- =====================================================
+           GETRÄNKE
+           ===================================================== -->
+      <section class="section reveal">
+        <div class="section-header">
+          <h3 data-de="Getränke" data-it="Bibite" data-en="Drinks">Getränke</h3>
+          <span>Drinks</span>
+        </div>
+
+        <div class="drink-list">
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Säfte (Holunder, Himbeere)"
+              data-it="Succo di frutta (sambuco, lampone)"
+              data-en="Juices (elderberry, raspberry)">Säfte (Holunder, Himbeere)</span>
+            <span class="price">€ 2,50</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Cola / Limo / Spezi"
+              data-it="Coca Cola / Limonata / Spezi"
+              data-en="Cola / Lemonade / Spezi">Cola / Limo / Spezi</span>
+            <span class="price">€ 3,00</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Mineralwasser 1/2 l"
+              data-it="Acqua minerale 1/2 l"
+              data-en="Mineral water 1/2 l">Mineralwasser 1/2 l</span>
+            <span class="price">€ 3,00</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Bier / Radler"
+              data-it="Birra / Radler"
+              data-en="Beer / Radler">Bier / Radler</span>
+            <span class="price">€ 4,00</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Hefe Weißbier"
+              data-it="Birra di frumento"
+              data-en="Wheat beer">Hefe Weißbier</span>
+            <span class="price">€ 4,00</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Apfelglühmix"
+              data-it="Succo di mela caldo"
+              data-en="Hot apple juice">Apfelglühmix</span>
+            <span class="price">€ 3,50</span>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name"
+              data-de="Glühwein"
+              data-it="Vin brulé"
+              data-en="Mulled wine">Glühwein</span>
+            <span class="price">€ 4,50</span>
+          </div>
+
+          <div class="drink-subheading"
+               data-de="Wein"
+               data-it="Vino"
+               data-en="Wine">Wein</div>
+
+          <div class="wine-item">
+            <div class="wine-name">Blauburgunder</div>
+            <div class="wine-options">
+              <div class="wine-option">
+                <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                <span class="price">€ 4,00</span>
+              </div>
+              <div class="wine-option">
+                <span>7/10 l</span>
+                <span class="price">€ 25,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wine-item">
+            <div class="wine-name">St. Magdalener</div>
+            <div class="wine-options">
+              <div class="wine-option">
+                <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                <span class="price">€ 4,00</span>
+              </div>
+              <div class="wine-option">
+                <span>7/10 l</span>
+                <span class="price">€ 25,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wine-item">
+            <div class="wine-name">Sylvaner</div>
+            <div class="wine-options">
+              <div class="wine-option">
+                <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                <span class="price">€ 4,00</span>
+              </div>
+              <div class="wine-option">
+                <span>7/10 l</span>
+                <span class="price">€ 25,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wine-item">
+            <div class="wine-name">Lugana</div>
+            <div class="wine-options">
+              <div class="wine-option">
+                <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                <span class="price">€ 4,00</span>
+              </div>
+              <div class="wine-option">
+                <span>7/10 l</span>
+                <span class="price">€ 25,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="drink-item">
+            <span class="drink-name">
+              <span>Veneziano / Hugo</span>
+              <small style="display:block; margin-top:4px; color:var(--muted); font-size:.84rem; font-weight:400;">
+                Aperol Spritz / Hugo
+              </small>
+            </span>
+            <span class="price">€ 5,00</span>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           SPEISEN
+           ===================================================== -->
+      <section class="section">
+        <div class="section-header reveal">
+          <h3 data-de="Speisen" data-it="Cibo" data-en="Food">Speisen</h3>
+          <span>Food</span>
+        </div>
+
+        <div class="food-grid">
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/speckbrot.jpg" alt="Speckbrot" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4
+                  data-de="Speckbrot"
+                  data-it="Panino con Speck"
+                  data-en="Speck sandwich">Speckbrot</h4>
+                <span class="price">€ 7,00</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Herzhaftes Brot mit Südtiroler Speck – einfach, traditionell und genau das Richtige für den kleinen Hunger."
+                 data-it="Pane saporito con Speck Alto Adige – semplice, tradizionale e perfetto per un piccolo spuntino."
+                 data-en="Hearty bread with South Tyrolean Speck – simple, traditional and perfect for a light bite.">
+                Herzhaftes Brot mit Südtiroler Speck – einfach, traditionell und genau das Richtige für den kleinen Hunger.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/speckburger.jpg" alt="Speckburger" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4>Speckburger</h4>
+                <span class="price">€ 12,00</span>
+              </div>
+              <p class="food-desc"
+                 data-de="Herzhafter Speckburger im selbst gebackenen Brot – kräftig im Geschmack und frisch zubereitet."
+                 data-it="Burger con Speck servito in pane fatto in casa – saporito e preparato fresco."
+                 data-en="Hearty Speck burger served in homemade bread – full of flavor and freshly prepared.">
+                Herzhafter Speckburger im selbst gebackenen Brot – kräftig im Geschmack und frisch zubereitet.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/bratwurst.jpg" alt="Bratwurst" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4
+                  data-de="Bratwurst"
+                  data-it="Salsiccia"
+                  data-en="Grilled sausage">Bratwurst</h4>
+                <span class="price">€ 6,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Würzige, knusprig gegrillte Bratwurst mit Senf, Ketchup und frischem Brötchen."
+                 data-it="Salsiccia speziata grigliata, servita con senape, ketchup e panino fresco."
+                 data-en="Spicy grilled sausage served with mustard, ketchup and a fresh bun.">
+                Würzige, knusprig gegrillte Bratwurst mit Senf, Ketchup und frischem Brötchen.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/pasta-amatriciana.jpg" alt="Pasta amatriciana" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4>Pasta amatriciana</h4>
+                <span class="price">€ 10,00</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Pasta in einer kräftigen, würzigen Tomatensauce nach Amatriciana-Art – herzhaft und wärmend."
+                 data-it="Pasta con una salsa di pomodoro saporita in stile amatriciana – gustosa e sostanziosa."
+                 data-en="Pasta in a rich, savory tomato sauce, Amatriciana style – hearty and warming.">
+                Pasta in einer kräftigen, würzigen Tomatensauce nach Amatriciana-Art – herzhaft und wärmend.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/tirtl.jpg" alt="Tirtl" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4>Tirtl</h4>
+                <span class="price">€ 5,50</span>
+              </div>
+              <p class="food-desc"
+                 data-de="Frittierte Teigtaschen, klassisch gefüllt mit Spinat oder Sauerkraut – eine herzhafte Spezialität aus dem Pustertal. Dazu servieren wir Speck."
+                 data-it="Sfoglie fritte ripiene di spinaci o crauti – una specialità saporita della Val Pusteria. Servite con Speck."
+                 data-en="Fried dough pockets traditionally filled with spinach or sauerkraut – a savory specialty from the Puster Valley. Served with Speck.">
+                Frittierte Teigtaschen, klassisch gefüllt mit Spinat oder Sauerkraut – eine herzhafte Spezialität aus dem Pustertal. Dazu servieren wir Speck.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/krapfen.jpg" alt="Krapfen" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4
+                  data-de="2 süße Krapfen"
+                  data-it="2 Krapfen dolci"
+                  data-en="2 sweet Krapfen">2 süße Krapfen</h4>
+                <span class="price">€ 4,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Frisch gebackene, traditionelle Südtiroler Krapfen mit süßer Füllung – ein himmlisches Dessert."
+                 data-it="„Krapfen“ tradizionali altoatesini appena fritti con ripieno dolce – un dessert delizioso."
+                 data-en="Freshly fried traditional South Tyrolean doughnuts with sweet filling – a heavenly dessert.">
+                Frisch gebackene, traditionelle Südtiroler Krapfen mit süßer Füllung – ein himmlisches Dessert.
+              </p>
+            </div>
+          </article>
+
+          <article class="food-card reveal">
+            <div class="food-image">
+              <img src="bilder/strauben.jpg" alt="Strauben" loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image'); this.remove();">
+            </div>
+            <div class="food-body">
+              <div class="food-title">
+                <h4>Strauben</h4>
+                <span class="price">€ 5,50</span>
+              </div>
+              <p class="food-desc"
+                 data-de="Traditionelles Südtiroler Schmalzgebäck in spiralförmiger Form, bestäubt mit Puderzucker und serviert mit Preiselbeermarmelade."
+                 data-it="Tradizionale dolce fritto altoatesino a forma di spirale, spolverato di zucchero a velo e servito con marmellata di mirtilli rossi."
+                 data-en="Traditional South Tyrolean fried pastry in a spiral shape, dusted with powdered sugar and served with cranberry jam.">
+                Traditionelles Südtiroler Schmalzgebäck in spiralförmiger Form, bestäubt mit Puderzucker und serviert mit Preiselbeermarmelade.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+
+      <footer>
+        <div>
+          © 2026 ·
+          <span
+            data-de="Guten Appetit!"
+            data-it="Buon appetito!"
+            data-en="Enjoy your meal!"
+          >Guten Appetit!</span>
+        </div>
+
+      </footer>
+
+    </div>
+  </main>
+
+
+  <script>
+    /* Startseite folgt direkt der ausgewählten Sprache */
+    /* Sprache wechseln */
+    function setLang(lang, btn) {
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll("[data-de]").forEach(el => {
+        const translatedText = el.dataset[lang];
+        if (translatedText) el.textContent = translatedText;
+      });
+
+      document.querySelectorAll("[data-aria-de]").forEach(el => {
+        const ariaText = el.dataset["aria" + lang.charAt(0).toUpperCase() + lang.slice(1)];
+        if (ariaText) el.setAttribute("aria-label", ariaText);
+      });
+
+      document.querySelectorAll(".lang-btn").forEach(button => {
+        button.classList.remove("active");
+      });
+
+      if (btn) btn.classList.add("active");
+
+      try {
+        localStorage.setItem("preferredLang", lang);
+      } catch (e) {}
+    }
+
+    /* Sprache beim Start laden */
+    window.addEventListener("DOMContentLoaded", () => {
+      let lang = null;
+
+      try {
+        lang = localStorage.getItem("preferredLang");
+      } catch (e) {}
+
+      if (!lang) {
+        const browserLang = (navigator.language || "de").slice(0, 2);
+        lang = ["de", "it", "en"].includes(browserLang) ? browserLang : "de";
+      }
+
+      const btn = document.querySelector(`.lang-btn[data-lang="${lang}"]`);
+      if (btn) setLang(lang, btn);
+    });
+
+    /* Sehr flüssiger Scroll-Übergang:
+       nur transform + opacity werden animiert. */
+    (() => {
+      const hero = document.querySelector(".hero");
+      const scene = document.querySelector(".hero-scene");
+
+      if (!hero || !scene) return;
+
+      const reduceMotion = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (reduceMotion) return;
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+
+      /* weiches Cubic-Easing */
+      const smoothstep = t => t * t * (3 - 2 * t);
+
+      let ticking = false;
+
+      function updateHero() {
+        ticking = false;
+
+        const rect = hero.getBoundingClientRect();
+        const viewport = window.innerHeight || document.documentElement.clientHeight;
+        const scrollRange = Math.max(1, hero.offsetHeight - viewport);
+
+        const raw = clamp((-rect.top) / scrollRange, 0, 1);
+
+        /*
+         * Der Text beginnt erst nach einem kleinen Scrollweg zu verschwinden
+         * und ist kurz vor dem Ende des Sticky-Bereichs vollständig weg.
+         */
+        const contentRaw = clamp((raw - 0.08) / 0.72, 0, 1);
+        const contentProgress = smoothstep(contentRaw);
+
+        scene.style.setProperty("--hero-progress", raw.toFixed(4));
+        scene.style.setProperty("--hero-content-progress", contentProgress.toFixed(4));
+      }
+
+      function requestUpdate() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateHero);
+      }
+
+      updateHero();
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
+    })();
+
+    /* Elemente beim Scrollen weich einblenden */
+    const revealObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      }
+    );
+
+    document.querySelectorAll(".reveal").forEach(el => {
+      revealObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>

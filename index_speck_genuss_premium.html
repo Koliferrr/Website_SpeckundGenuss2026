@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#132e27">
+  <title>Speck & Genuss 2026</title>
+
+  <style>
+    :root {
+      --forest-950: #0b1b17;
+      --forest-900: #112b24;
+      --forest-800: #173b32;
+      --forest-700: #235247;
+
+      --cream-50: #fdfbf6;
+      --cream-100: #f6f1e7;
+      --cream-200: #ece3d4;
+
+      --copper-500: #b86e43;
+      --copper-600: #9c5732;
+      --sage-500: #7f9485;
+      --blue-500: #7596a8;
+
+      --ink: #20211e;
+      --muted: #6f706a;
+      --line: rgba(27, 42, 36, .13);
+
+      --shadow-sm: 0 8px 28px rgba(9, 24, 19, .10);
+      --shadow-lg: 0 24px 70px rgba(9, 24, 19, .16);
+
+      --radius-sm: 14px;
+      --radius-md: 22px;
+      --radius-lg: 34px;
+
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--forest-950);
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--cream-100);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .hero {
+      --hero-p: 0;
+      min-height: 100svh;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+      color: white;
+      background: var(--forest-950);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: -4%;
+      z-index: -4;
+      background:
+        url("bilder/titelbild.png") center 48% / cover no-repeat;
+      transform:
+        translate3d(0, calc(var(--hero-p) * -18px), 0)
+        scale(calc(1.045 + var(--hero-p) * .035));
+      transform-origin: center;
+      filter: brightness(.62) saturate(.86) contrast(1.08);
+      will-change: transform;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(
+          ellipse at 50% 47%,
+          rgba(0,0,0,.08) 0%,
+          rgba(0,0,0,.22) 38%,
+          rgba(0,0,0,0) 68%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(6,15,12,.30) 0%,
+          rgba(6,15,12,.16) 26%,
+          rgba(6,15,12,.28) 62%,
+          rgba(6,15,12,.84) 100%
+        );
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      height: 28%;
+      pointer-events: none;
+      background: linear-gradient(
+        to bottom,
+        rgba(11,27,23,0),
+        rgba(11,27,23,.72) 62%,
+        rgba(11,27,23,.96)
+      );
+    }
+
+    .hero-inner {
+      width: min(1220px, calc(100% - 40px));
+      min-height: 100svh;
+      margin: 0 auto;
+      padding:
+        max(24px, env(safe-area-inset-top))
+        0
+        max(38px, env(safe-area-inset-bottom));
+
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .hero-topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      padding-top: 8px;
+    }
+
+    .event-stamp {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 999px;
+      background: rgba(9,24,19,.24);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.10);
+    }
+
+    .event-stamp-mark {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--copper-500);
+      box-shadow: 0 0 0 5px rgba(184,110,67,.16);
+      flex: 0 0 auto;
+    }
+
+    .event-stamp-text {
+      display: grid;
+      gap: 1px;
+      font-size: .72rem;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .event-stamp-text span:last-child {
+      opacity: .74;
+      font-weight: 650;
+      letter-spacing: .05em;
+    }
+
+    .hero-language {
+      width: min(430px, 48vw);
+      padding: 5px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+
+      border: 1px solid rgba(255,255,255,.24);
+      border-radius: 18px;
+      background: rgba(9,24,19,.28);
+      box-shadow: 0 10px 32px rgba(0,0,0,.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .lang-btn {
+      min-width: 0;
+      min-height: 50px;
+      border: 0;
+      border-radius: 13px;
+      background: transparent;
+      color: rgba(255,255,255,.78);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      transition:
+        color .22s ease,
+        background .22s ease,
+        transform .18s ease,
+        box-shadow .22s ease;
+    }
+
+    .lang-btn:hover {
+      color: white;
+      background: rgba(255,255,255,.10);
+    }
+
+    .lang-btn:active {
+      transform: scale(.975);
+    }
+
+    .lang-btn.active {
+      color: var(--forest-950);
+      background: rgba(255,255,255,.94);
+      box-shadow: 0 8px 18px rgba(0,0,0,.13);
+    }
+
+    .lang-name {
+      max-width: 100%;
+      font-weight: 800;
+      font-size: .88rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lang-code {
+      font-weight: 850;
+      font-size: .62rem;
+      letter-spacing: .14em;
+      opacity: .66;
+    }
+
+    .hero-center {
+      align-self: center;
+      justify-self: center;
+      width: min(980px, 100%);
+      padding: 72px 0 90px;
+      text-align: center;
+
+      opacity: calc(1 - var(--hero-p) * .72);
+      transform:
+        translate3d(0, calc(var(--hero-p) * -34px), 0)
+        scale(calc(1 - var(--hero-p) * .02));
+      will-change: transform, opacity;
+    }
+
+    .hero-kicker {
+      margin-bottom: 17px;
+      font-size: clamp(.72rem, 1.1vw, .88rem);
+      font-weight: 850;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      text-shadow: 0 3px 14px rgba(0,0,0,.42);
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(4rem, 10vw, 8.7rem);
+      font-weight: 700;
+      letter-spacing: -.055em;
+      line-height: .82;
+      text-shadow:
+        0 7px 24px rgba(0,0,0,.36),
+        0 22px 48px rgba(0,0,0,.20);
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-year {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: min(500px, 78%);
+      margin: 26px auto 0;
+
+      font-family: var(--serif);
+      font-size: clamp(1.55rem, 3.2vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: .24em;
+    }
+
+    .hero-year::before,
+    .hero-year::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.72)
+      );
+    }
+
+    .hero-year::after {
+      background: linear-gradient(
+        90deg,
+        rgba(255,255,255,.72),
+        transparent
+      );
+    }
+
+    .hero-subtitle {
+      max-width: 720px;
+      margin: 24px auto 0;
+      font-size: clamp(1rem, 1.8vw, 1.18rem);
+      font-weight: 600;
+      line-height: 1.6;
+      text-shadow: 0 3px 14px rgba(0,0,0,.50);
+    }
+
+    .hero-bottom {
+      display: flex;
+      justify-content: center;
+    }
+
+    .scroll-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: white;
+      text-decoration: none;
+      font-size: .7rem;
+      font-weight: 850;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      opacity: calc(1 - var(--hero-p) * .9);
+    }
+
+    .scroll-arrow {
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(255,255,255,.42);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(7,20,16,.20);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .scroll-arrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid white;
+      border-bottom: 2px solid white;
+      transform: rotate(45deg) translate(-1px, -1px);
+      animation: arrowPulse 1.7s ease-in-out infinite;
+    }
+
+    .scroll-link:hover .scroll-arrow {
+      background: rgba(255,255,255,.12);
+      transform: translateY(3px);
+    }
+
+    @keyframes arrowPulse {
+      0%, 100% { transform: rotate(45deg) translate(-2px, -2px); opacity: .55; }
+      50% { transform: rotate(45deg) translate(2px, 2px); opacity: 1; }
+    }
+
+    /* =========================================================
+       MENU SHEET
+       ========================================================= */
+
+    .menu-sheet {
+      position: relative;
+      z-index: 5;
+      margin-top: -26px;
+      padding: 0 18px 80px;
+      border-radius: 32px 32px 0 0;
+      background:
+        radial-gradient(circle at 5% 0%, rgba(117,150,168,.13), transparent 25%),
+        radial-gradient(circle at 95% 10%, rgba(184,110,67,.10), transparent 22%),
+        var(--cream-100);
+      box-shadow: 0 -16px 55px rgba(5,18,14,.20);
+    }
+
+    .menu-wrap {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding-top: 74px;
+    }
+
+    .menu-intro {
+      max-width: 850px;
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-kicker {
+      margin-bottom: 9px;
+      color: var(--copper-600);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .menu-intro h2 {
+      margin: 0;
+      color: var(--forest-900);
+      font-family: var(--serif);
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -.035em;
+    }
+
+    .menu-intro p {
+      max-width: 650px;
+      margin: 18px auto 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .menu-toolbar {
+      position: sticky;
+      top: 10px;
+      z-index: 30;
+      margin: 0 auto 34px;
+      width: min(660px, 100%);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 8px;
+      border: 1px solid rgba(20,47,39,.10);
+      border-radius: 20px;
+      background: rgba(253,251,246,.88);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .menu-language {
+      min-width: 0;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .menu-language .lang-btn {
+      min-height: 46px;
+      color: var(--forest-800);
+      background: transparent;
+    }
+
+    .menu-language .lang-btn:hover {
+      background: rgba(23,59,50,.07);
+    }
+
+    .menu-language .lang-btn.active {
+      color: white;
+      background: var(--forest-800);
+      box-shadow: 0 6px 16px rgba(23,59,50,.20);
+    }
+
+    .quick-nav {
+      display: flex;
+      gap: 4px;
+      border-left: 1px solid var(--line);
+      padding-left: 8px;
+    }
+
+    .quick-nav a {
+      min-width: 42px;
+      min-height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      text-decoration: none;
+      color: var(--forest-800);
+      background: rgba(23,59,50,.06);
+      font-size: 1rem;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .quick-nav a:hover {
+      background: rgba(23,59,50,.12);
+      transform: translateY(-1px);
+    }
+
+    .order-note {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      margin: 0 0 68px;
+      padding: 22px 24px;
+
+      border: 1px solid rgba(184,110,67,.20);
+      border-radius: var(--radius-md);
+      background:
+        linear-gradient(135deg, rgba(184,110,67,.10), rgba(255,255,255,.50)),
+        var(--cream-50);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .order-icon {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: var(--copper-500);
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 700;
+      box-shadow: 0 8px 18px rgba(184,110,67,.23);
+    }
+
+    .order-note strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--forest-900);
+      font-size: 1rem;
+    }
+
+    .order-note span {
+      color: #5f625c;
+      line-height: 1.55;
+    }
+
+    /* =========================================================
+       SECTION TITLES
+       ========================================================= */
+
+    .menu-section {
+      scroll-margin-top: 100px;
+      margin-top: 72px;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 25px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-heading h3 {
+      margin: 0;
+      color: var(--forest-900);
+      font-family: var(--serif);
+      font-size: clamp(2.3rem, 5vw, 3.7rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -.03em;
+    }
+
+    .section-number {
+      color: var(--copper-600);
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: .10em;
+    }
+
+    /* =========================================================
+       DRINKS
+       ========================================================= */
+
+    .drink-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, .85fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .menu-panel {
+      border: 1px solid rgba(20,47,39,.09);
+      border-radius: var(--radius-md);
+      background: rgba(253,251,246,.83);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .panel-heading {
+      padding: 20px 22px 12px;
+      color: var(--sage-500);
+      font-size: .7rem;
+      font-weight: 900;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+    }
+
+    .price-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 16px 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .price-row:first-of-type {
+      border-top: 0;
+    }
+
+    .item-label {
+      min-width: 0;
+      color: var(--ink);
+      font-size: .98rem;
+      font-weight: 650;
+      line-height: 1.4;
+    }
+
+    .item-price {
+      color: var(--copper-600);
+      font-family: var(--serif);
+      font-size: 1.13rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .wine-row {
+      padding: 17px 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .wine-row:first-of-type {
+      border-top: 0;
+    }
+
+    .wine-name {
+      margin-bottom: 10px;
+      color: var(--forest-900);
+      font-family: var(--serif);
+      font-size: 1.17rem;
+      font-weight: 700;
+    }
+
+    .wine-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .wine-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      background: rgba(23,59,50,.055);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .wine-option strong {
+      color: var(--copper-600);
+      font-family: var(--serif);
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       FOOD
+       ========================================================= */
+
+    .food-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .food-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid rgba(20,47,39,.09);
+      border-radius: var(--radius-md);
+      background: var(--cream-50);
+      box-shadow: var(--shadow-sm);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    .food-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(340px, .8fr);
+      min-height: 410px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(135deg, rgba(23,59,50,.98), rgba(11,27,23,.98));
+      color: white;
+      box-shadow: var(--shadow-lg);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .food-card:not(.featured):hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 45px rgba(9,24,19,.14);
+      }
+    }
+
+    .food-media {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(117,150,168,.20), rgba(184,110,67,.12)),
+        var(--cream-200);
+    }
+
+    .featured .food-media {
+      min-height: 100%;
+      aspect-ratio: auto;
+      order: 2;
+    }
+
+    .food-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .food-card:hover .food-media img {
+        transform: scale(1.025);
+      }
+    }
+
+    .food-media.missing-image::after {
+      content: "FOTO";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(23,59,50,.38);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .22em;
+    }
+
+    .food-card-body {
+      padding: 22px 22px 25px;
+    }
+
+    .featured .food-card-body {
+      order: 1;
+      padding: clamp(30px, 5vw, 58px);
+      align-self: center;
+    }
+
+    .food-title-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .food-title {
+      margin: 0;
+      color: var(--forest-900);
+      font-family: var(--serif);
+      font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+      line-height: 1.08;
+      letter-spacing: -.02em;
+    }
+
+    .featured .food-title {
+      color: white;
+      font-size: clamp(2.3rem, 5vw, 4rem);
+    }
+
+    .food-price {
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: white;
+      background: var(--copper-500);
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .featured .food-price {
+      margin-top: 5px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.20);
+    }
+
+    .food-desc {
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: .94rem;
+      line-height: 1.62;
+    }
+
+    .featured .food-desc {
+      max-width: 48ch;
+      margin-top: 18px;
+      color: rgba(255,255,255,.78);
+      font-size: 1rem;
+    }
+
+    .feature-badge {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 16px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      color: rgba(255,255,255,.72);
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+      margin-top: 84px;
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    footer strong {
+      color: var(--forest-800);
+    }
+
+    /* =========================================================
+       REVEAL
+       ========================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity .65s cubic-bezier(.2,.7,.2,1),
+        transform .65s cubic-bezier(.2,.7,.2,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* =========================================================
+       TABLET / MOBILE
+       ========================================================= */
+
+    @media (max-width: 850px) {
+      .hero-topbar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .event-stamp {
+        width: fit-content;
+      }
+
+      .hero-language {
+        width: 100%;
+        max-width: 520px;
+        align-self: center;
+      }
+
+      .drink-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .food-card.featured {
+        grid-template-columns: 1fr;
+      }
+
+      .featured .food-media {
+        order: 1;
+        min-height: 300px;
+        aspect-ratio: 16 / 9;
+      }
+
+      .featured .food-card-body {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero-bg {
+        inset: 0;
+        background-image: url("bilder/titelbild-mobile.png");
+        background-size: cover;
+        background-position: center center;
+        transform:
+          translate3d(0, calc(var(--hero-p) * -8px), 0)
+          scale(calc(1.01 + var(--hero-p) * .018));
+        filter: brightness(.60) saturate(.88) contrast(1.08);
+      }
+
+      .hero-inner {
+        width: min(100% - 26px, 520px);
+        padding-top: max(14px, env(safe-area-inset-top));
+      }
+
+      .hero-topbar {
+        gap: 12px;
+      }
+
+      .event-stamp {
+        align-self: center;
+        padding: 8px 12px;
+      }
+
+      .event-stamp-text {
+        font-size: .62rem;
+      }
+
+      .hero-language {
+        max-width: 100%;
+        border-radius: 16px;
+      }
+
+      .lang-btn {
+        min-height: 46px;
+      }
+
+      .lang-name {
+        font-size: .76rem;
+      }
+
+      .hero-center {
+        padding: 40px 0 64px;
+      }
+
+      .hero-kicker {
+        margin-bottom: 14px;
+        font-size: .65rem;
+      }
+
+      .hero-title {
+        font-size: clamp(3.45rem, 19vw, 5.4rem);
+        line-height: .86;
+      }
+
+      .hero-year {
+        width: min(330px, 84%);
+        margin-top: 20px;
+        font-size: 1.55rem;
+        gap: 14px;
+      }
+
+      .hero-subtitle {
+        max-width: 31ch;
+        margin-top: 20px;
+        font-size: .94rem;
+      }
+
+      .menu-sheet {
+        margin-top: -20px;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 26px 26px 0 0;
+      }
+
+      .menu-wrap {
+        padding-top: 56px;
+      }
+
+      .menu-toolbar {
+        top: 7px;
+        grid-template-columns: 1fr;
+      }
+
+      .quick-nav {
+        display: none;
+      }
+
+      .menu-intro h2 {
+        font-size: clamp(2.4rem, 12vw, 3.5rem);
+      }
+
+      .order-note {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+        padding: 20px;
+        margin-bottom: 56px;
+      }
+
+      .menu-section {
+        margin-top: 58px;
+      }
+
+      .section-heading h3 {
+        font-size: 2.4rem;
+      }
+
+      .food-grid {
+        grid-template-columns: 1fr;
+        gap: 17px;
+      }
+
+      .food-card.featured {
+        border-radius: var(--radius-md);
+      }
+
+      .featured .food-media {
+        min-height: 0;
+        aspect-ratio: 16 / 10;
+      }
+
+      .featured .food-card-body {
+        padding: 25px 21px 28px;
+      }
+
+      .featured .food-title {
+        font-size: 2.15rem;
+      }
+
+      .wine-options {
+        gap: 6px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 370px) {
+      .event-stamp {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 3.35rem;
+      }
+
+      .lang-name {
+        font-size: .69rem;
+      }
+
+      .lang-code {
+        font-size: .54rem;
+      }
+
+      .price-row,
+      .wine-row {
+        padding-left: 17px;
+        padding-right: 17px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+      }
+
+      .hero-bg,
+      .hero-center {
+        transform: none !important;
+        opacity: 1 !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       HERO
+       ======================================================= -->
+  <header class="hero" id="start">
+    <div class="hero-bg" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+
+      <div class="hero-topbar">
+        <div class="event-stamp">
+          <span class="event-stamp-mark" aria-hidden="true"></span>
+          <span class="event-stamp-text">
+            <span>03.–04.10.2026</span>
+            <span>St. Magdalena · Villnöß</span>
+          </span>
+        </div>
+
+        <div class="hero-language" role="group" aria-label="Sprache / Lingua / Language">
+          <button class="lang-btn active" type="button" data-lang="de" aria-label="Deutsch">
+            <span class="lang-name">Deutsch</span>
+            <span class="lang-code">DE</span>
+          </button>
+
+          <button class="lang-btn" type="button" data-lang="it" aria-label="Italiano">
+            <span class="lang-name">Italiano</span>
+            <span class="lang-code">IT</span>
+          </button>
+
+          <button class="lang-btn" type="button" data-lang="en" aria-label="English">
+            <span class="lang-name">English</span>
+            <span class="lang-code">GB</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-center">
+        <div class="hero-kicker"
+             data-de="Willkommen"
+             data-it="Benvenuti"
+             data-en="Welcome">Willkommen</div>
+
+        <h1 class="hero-title">
+          <span>Speck &</span>
+          <span>Genuss</span>
+        </h1>
+
+        <div class="hero-year">2026</div>
+
+        <p class="hero-subtitle"
+           data-de="Südtiroler Spezialitäten, gutes Essen und gemütliches Beisammensein."
+           data-it="Specialità altoatesine, buon cibo e piacevoli momenti in compagnia."
+           data-en="South Tyrolean specialties, good food and a welcoming atmosphere.">
+          Südtiroler Spezialitäten, gutes Essen und gemütliches Beisammensein.
+        </p>
+      </div>
+
+      <div class="hero-bottom">
+        <a class="scroll-link" href="#menu">
+          <span data-de="Speisekarte ansehen"
+                data-it="Scopri il menu"
+                data-en="View the menu">Speisekarte ansehen</span>
+          <span class="scroll-arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- =======================================================
+       MENU
+       ======================================================= -->
+  <main class="menu-sheet" id="menu">
+    <div class="menu-wrap">
+
+      <section class="menu-intro reveal">
+        <div class="section-kicker">Speck & Genuss 2026</div>
+        <h2>Preisliste / Listino / Menu</h2>
+        <p
+          data-de="Wählen Sie Ihre Sprache und entdecken Sie unsere Getränke und Speisen."
+          data-it="Scegliete la vostra lingua e scoprite le nostre bevande e i nostri piatti."
+          data-en="Choose your language and discover our drinks and food.">
+          Wählen Sie Ihre Sprache und entdecken Sie unsere Getränke und Speisen.
+        </p>
+      </section>
+
+      <div class="menu-toolbar reveal">
+        <div class="menu-language" role="group" aria-label="Sprache / Lingua / Language">
+          <button class="lang-btn active" type="button" data-lang="de" aria-label="Deutsch">
+            <span class="lang-name">Deutsch</span>
+            <span class="lang-code">DE</span>
+          </button>
+
+          <button class="lang-btn" type="button" data-lang="it" aria-label="Italiano">
+            <span class="lang-name">Italiano</span>
+            <span class="lang-code">IT</span>
+          </button>
+
+          <button class="lang-btn" type="button" data-lang="en" aria-label="English">
+            <span class="lang-name">English</span>
+            <span class="lang-code">GB</span>
+          </button>
+        </div>
+
+        <nav class="quick-nav" aria-label="Menü-Navigation">
+          <a href="#drinks" title="Getränke">◇</a>
+          <a href="#food" title="Speisen">◆</a>
+        </nav>
+      </div>
+
+      <aside class="order-note reveal">
+        <div class="order-icon" aria-hidden="true">S</div>
+        <div>
+          <strong
+            data-de="So bestellen Sie:"
+            data-it="Come ordinare:"
+            data-en="How to order:">So bestellen Sie:</strong>
+
+          <span
+            data-de="Getränke und Speisen können direkt an der Kasse oder bei unserem Personal bestellt werden. Wir freuen uns auf Sie!"
+            data-it="Le bevande e i piatti possono essere ordinati direttamente alla cassa o presso il nostro personale. Vi aspettiamo!"
+            data-en="Drinks and food can be ordered directly at the cash desk or from our staff. We look forward to serving you!">
+            Getränke und Speisen können direkt an der Kasse oder bei unserem Personal bestellt werden. Wir freuen uns auf Sie!
+          </span>
+        </div>
+      </aside>
+
+
+      <!-- =====================================================
+           GETRÄNKE
+           ===================================================== -->
+      <section class="menu-section" id="drinks">
+
+        <div class="section-heading reveal">
+          <h3 data-de="Getränke" data-it="Bibite" data-en="Drinks">Getränke</h3>
+          <span class="section-number">01</span>
+        </div>
+
+        <div class="drink-layout">
+
+          <div class="menu-panel reveal">
+            <div class="panel-heading"
+                 data-de="Getränke"
+                 data-it="Bibite"
+                 data-en="Drinks">Getränke</div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Säfte (Holunder, Himbeere)"
+                    data-it="Succo di frutta (sambuco, lampone)"
+                    data-en="Juices (elderberry, raspberry)">
+                Säfte (Holunder, Himbeere)
+              </span>
+              <span class="item-price">€ 2,50</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Cola / Limo / Spezi"
+                    data-it="Coca Cola / Limonata / Spezi"
+                    data-en="Cola / Lemonade / Spezi">Cola / Limo / Spezi</span>
+              <span class="item-price">€ 3,00</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Mineralwasser 1/2 l"
+                    data-it="Acqua minerale 1/2 l"
+                    data-en="Mineral water 1/2 l">Mineralwasser 1/2 l</span>
+              <span class="item-price">€ 3,00</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Bier / Radler"
+                    data-it="Birra / Radler"
+                    data-en="Beer / Radler">Bier / Radler</span>
+              <span class="item-price">€ 4,00</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Hefe Weißbier"
+                    data-it="Birra di frumento"
+                    data-en="Wheat beer">Hefe Weißbier</span>
+              <span class="item-price">€ 4,00</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Apfelglühmix"
+                    data-it="Succo di mela caldo"
+                    data-en="Hot apple juice">Apfelglühmix</span>
+              <span class="item-price">€ 3,50</span>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label"
+                    data-de="Glühwein"
+                    data-it="Vin brulé"
+                    data-en="Mulled wine">Glühwein</span>
+              <span class="item-price">€ 4,50</span>
+            </div>
+          </div>
+
+
+          <div class="menu-panel reveal">
+            <div class="panel-heading"
+                 data-de="Wein & Aperitif"
+                 data-it="Vino & Aperitivo"
+                 data-en="Wine & Aperitif">Wein & Aperitif</div>
+
+            <div class="wine-row">
+              <div class="wine-name">Blauburgunder</div>
+              <div class="wine-options">
+                <div class="wine-option">
+                  <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                  <strong>€ 4,00</strong>
+                </div>
+                <div class="wine-option">
+                  <span>7/10 l</span>
+                  <strong>€ 25,00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="wine-row">
+              <div class="wine-name">St. Magdalener</div>
+              <div class="wine-options">
+                <div class="wine-option">
+                  <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                  <strong>€ 4,00</strong>
+                </div>
+                <div class="wine-option">
+                  <span>7/10 l</span>
+                  <strong>€ 25,00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="wine-row">
+              <div class="wine-name">Sylvaner</div>
+              <div class="wine-options">
+                <div class="wine-option">
+                  <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                  <strong>€ 4,00</strong>
+                </div>
+                <div class="wine-option">
+                  <span>7/10 l</span>
+                  <strong>€ 25,00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="wine-row">
+              <div class="wine-name">Lugana</div>
+              <div class="wine-options">
+                <div class="wine-option">
+                  <span data-de="Glas" data-it="Bicchiere" data-en="Glass">Glas</span>
+                  <strong>€ 4,00</strong>
+                </div>
+                <div class="wine-option">
+                  <span>7/10 l</span>
+                  <strong>€ 25,00</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="price-row">
+              <span class="item-label">
+                Veneziano / Hugo
+                <small style="display:block;margin-top:3px;color:var(--muted);font-weight:500;">
+                  Aperol Spritz / Hugo
+                </small>
+              </span>
+              <span class="item-price">€ 5,00</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           SPEISEN
+           ===================================================== -->
+      <section class="menu-section" id="food">
+
+        <div class="section-heading reveal">
+          <h3 data-de="Speisen" data-it="Cibo" data-en="Food">Speisen</h3>
+          <span class="section-number">02</span>
+        </div>
+
+        <div class="food-grid">
+
+          <!-- SPECKBURGER FEATURE -->
+          <article class="food-card featured reveal">
+            <div class="food-card-body">
+              <span class="feature-badge"
+                    data-de="Unser Highlight"
+                    data-it="Il nostro piatto forte"
+                    data-en="Our highlight">Unser Highlight</span>
+
+              <div class="food-title-row">
+                <h4 class="food-title">Speckburger</h4>
+                <span class="food-price">€ 12,00</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Herzhafter Speckburger im selbst gebackenen Brot – kräftig im Geschmack und frisch zubereitet."
+                 data-it="Burger con Speck servito in pane fatto in casa – saporito e preparato fresco."
+                 data-en="Hearty Speck burger served in homemade bread – full of flavor and freshly prepared.">
+                Herzhafter Speckburger im selbst gebackenen Brot – kräftig im Geschmack und frisch zubereitet.
+              </p>
+            </div>
+
+            <div class="food-media">
+              <img src="bilder/speckburger.jpg"
+                   alt="Speckburger"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+          </article>
+
+
+          <!-- SPECKBROT -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/speckbrot.jpg"
+                   alt="Speckbrot"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title"
+                    data-de="Speckbrot"
+                    data-it="Panino con Speck"
+                    data-en="Speck sandwich">Speckbrot</h4>
+                <span class="food-price">€ 7,00</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Herzhaftes Brot mit Südtiroler Speck – einfach, traditionell und genau das Richtige für den kleinen Hunger."
+                 data-it="Pane saporito con Speck Alto Adige – semplice, tradizionale e perfetto per un piccolo spuntino."
+                 data-en="Hearty bread with South Tyrolean Speck – simple, traditional and perfect for a light bite.">
+                Herzhaftes Brot mit Südtiroler Speck – einfach, traditionell und genau das Richtige für den kleinen Hunger.
+              </p>
+            </div>
+          </article>
+
+
+          <!-- BRATWURST -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/bratwurst.jpg"
+                   alt="Bratwurst"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title"
+                    data-de="Bratwurst"
+                    data-it="Salsiccia"
+                    data-en="Grilled sausage">Bratwurst</h4>
+                <span class="food-price">€ 6,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Würzige, knusprig gegrillte Bratwurst mit Senf, Ketchup und frischem Brötchen."
+                 data-it="Salsiccia speziata grigliata, servita con senape, ketchup e panino fresco."
+                 data-en="Spicy grilled sausage served with mustard, ketchup and a fresh bun.">
+                Würzige, knusprig gegrillte Bratwurst mit Senf, Ketchup und frischem Brötchen.
+              </p>
+            </div>
+          </article>
+
+
+          <!-- PASTA -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/pasta-amatriciana.jpg"
+                   alt="Pasta amatriciana"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title">Pasta amatriciana</h4>
+                <span class="food-price">€ 10,00</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Pasta in einer kräftigen, würzigen Tomatensauce nach Amatriciana-Art – herzhaft und wärmend."
+                 data-it="Pasta con una salsa di pomodoro saporita in stile amatriciana – gustosa e sostanziosa."
+                 data-en="Pasta in a rich, savory tomato sauce, Amatriciana style – hearty and warming.">
+                Pasta in einer kräftigen, würzigen Tomatensauce nach Amatriciana-Art – herzhaft und wärmend.
+              </p>
+            </div>
+          </article>
+
+
+          <!-- TIRTL -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/tirtl.jpg"
+                   alt="Tirtl"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title">Tirtl</h4>
+                <span class="food-price">€ 5,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Frittierte Teigtaschen, klassisch gefüllt mit Spinat oder Sauerkraut – eine herzhafte Spezialität aus dem Pustertal. Dazu servieren wir Speck."
+                 data-it="Sfoglie fritte ripiene di spinaci o crauti – una specialità saporita della Val Pusteria. Servite con Speck."
+                 data-en="Fried dough pockets traditionally filled with spinach or sauerkraut – a savory specialty from the Puster Valley. Served with Speck.">
+                Frittierte Teigtaschen, klassisch gefüllt mit Spinat oder Sauerkraut – eine herzhafte Spezialität aus dem Pustertal. Dazu servieren wir Speck.
+              </p>
+            </div>
+          </article>
+
+
+          <!-- KRAPFEN -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/krapfen.jpg"
+                   alt="Krapfen"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title"
+                    data-de="2 süße Krapfen"
+                    data-it="2 Krapfen dolci"
+                    data-en="2 sweet Krapfen">2 süße Krapfen</h4>
+                <span class="food-price">€ 4,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Frisch gebackene, traditionelle Südtiroler Krapfen mit süßer Füllung – ein himmlisches Dessert."
+                 data-it="„Krapfen“ tradizionali altoatesini appena fritti con ripieno dolce – un dessert delizioso."
+                 data-en="Freshly fried traditional South Tyrolean doughnuts with sweet filling – a heavenly dessert.">
+                Frisch gebackene, traditionelle Südtiroler Krapfen mit süßer Füllung – ein himmlisches Dessert.
+              </p>
+            </div>
+          </article>
+
+
+          <!-- STRAUBEN -->
+          <article class="food-card reveal">
+            <div class="food-media">
+              <img src="bilder/strauben.jpg"
+                   alt="Strauben"
+                   loading="lazy"
+                   onerror="this.parentElement.classList.add('missing-image');this.remove();">
+            </div>
+
+            <div class="food-card-body">
+              <div class="food-title-row">
+                <h4 class="food-title">Strauben</h4>
+                <span class="food-price">€ 5,50</span>
+              </div>
+
+              <p class="food-desc"
+                 data-de="Traditionelles Südtiroler Schmalzgebäck in spiralförmiger Form, bestäubt mit Puderzucker und serviert mit Preiselbeermarmelade."
+                 data-it="Tradizionale dolce fritto altoatesino a forma di spirale, spolverato di zucchero a velo e servito con marmellata di mirtilli rossi."
+                 data-en="Traditional South Tyrolean fried pastry in a spiral shape, dusted with powdered sugar and served with cranberry jam.">
+                Traditionelles Südtiroler Schmalzgebäck in spiralförmiger Form, bestäubt mit Puderzucker und serviert mit Preiselbeermarmelade.
+              </p>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+
+      <footer>
+        <span>© 2026 · Speck & Genuss</span>
+        <strong data-de="Guten Appetit!"
+                data-it="Buon appetito!"
+                data-en="Enjoy your meal!">Guten Appetit!</strong>
+      </footer>
+
+    </div>
+  </main>
+
+
+  <script>
+    (() => {
+      const validLanguages = ["de", "it", "en"];
+
+      function setLang(lang) {
+        if (!validLanguages.includes(lang)) lang = "de";
+
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll("[data-de]").forEach(el => {
+          const translatedText = el.dataset[lang];
+          if (translatedText) el.textContent = translatedText;
+        });
+
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+          const isActive = btn.dataset.lang === lang;
+          btn.classList.toggle("active", isActive);
+          btn.setAttribute("aria-pressed", String(isActive));
+        });
+
+        try {
+          localStorage.setItem("preferredLang", lang);
+        } catch (e) {}
+      }
+
+      document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.addEventListener("click", () => setLang(btn.dataset.lang));
+      });
+
+      let initialLang = "de";
+
+      try {
+        const saved = localStorage.getItem("preferredLang");
+        if (validLanguages.includes(saved)) {
+          initialLang = saved;
+        } else {
+          const browserLang = (navigator.language || "de").slice(0, 2);
+          if (validLanguages.includes(browserLang)) initialLang = browserLang;
+        }
+      } catch (e) {}
+
+      setLang(initialLang);
+
+      /* Dezente, GPU-freundliche Hero-Bewegung */
+      const hero = document.querySelector(".hero");
+      let ticking = false;
+
+      function updateHero() {
+        ticking = false;
+        if (!hero) return;
+
+        const maxDistance = Math.max(1, window.innerHeight * .8);
+        const progress = Math.min(1, Math.max(0, window.scrollY / maxDistance));
+        hero.style.setProperty("--hero-p", progress.toFixed(4));
+      }
+
+      window.addEventListener("scroll", () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(updateHero);
+      }, { passive: true });
+
+      updateHero();
+
+      /* Elemente beim Scrollen elegant einblenden */
+      const revealItems = document.querySelectorAll(".reveal");
+
+      if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: .08,
+          rootMargin: "0px 0px -36px 0px"
+        });
+
+        revealItems.forEach(item => observer.observe(item));
+      } else {
+        revealItems.forEach(item => item.classList.add("visible"));
+      }
+    })();
+  </script>
+
+</body>
+</html>
