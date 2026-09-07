@@ -459,7 +459,7 @@
       margin: 0 auto 34px;
       width: min(660px, 100%);
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr;
       gap: 10px;
       align-items: center;
       padding: 8px;
@@ -492,31 +492,6 @@
       color: white;
       background: var(--forest-800);
       box-shadow: 0 6px 16px rgba(23,59,50,.20);
-    }
-
-    .quick-nav {
-      display: flex;
-      gap: 4px;
-      border-left: 1px solid var(--line);
-      padding-left: 8px;
-    }
-
-    .quick-nav a {
-      min-width: 42px;
-      min-height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      text-decoration: none;
-      color: var(--forest-800);
-      background: rgba(23,59,50,.06);
-      font-size: 1rem;
-      transition: background .2s ease, transform .2s ease;
-    }
-
-    .quick-nav a:hover {
-      background: rgba(23,59,50,.12);
-      transform: translateY(-1px);
     }
 
     .order-note {
@@ -1013,10 +988,6 @@
         grid-template-columns: 1fr;
       }
 
-      .quick-nav {
-        display: none;
-      }
-
       .menu-intro h2 {
         font-size: clamp(2.4rem, 12vw, 3.5rem);
       }
@@ -1226,10 +1197,6 @@
           </button>
         </div>
 
-        <nav class="quick-nav" aria-label="Menü-Navigation">
-          <a href="#drinks" title="Getränke">◇</a>
-          <a href="#food" title="Speisen">◆</a>
-        </nav>
       </div>
 
       <aside class="order-note reveal">

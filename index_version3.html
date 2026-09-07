@@ -362,7 +362,7 @@
       top: 8px;
       z-index: 30;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr;
       gap: 12px;
       align-items: center;
       margin-bottom: 34px;
@@ -391,29 +391,11 @@
       background: var(--sky-dark);
     }
 
-    .menu-jump {
-      display: flex;
-      gap: 6px;
-    }
-
-    .menu-jump a {
-      min-width: 44px;
-      min-height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 12px;
-      color: var(--ink);
-      background: rgba(128,171,193,.13);
-      text-decoration: none;
-      font-weight: 900;
-    }
-
     .order-note {
+      position: relative;
       margin-bottom: 72px;
-      display: grid;
-      grid-template-columns: 12px 1fr;
-      gap: 18px;
-      padding: 21px 24px;
+      display: block;
+      padding: 21px 24px 21px 50px;
       border: 1px solid rgba(22,23,22,.12);
       border-radius: 18px;
       background: var(--white);
@@ -422,6 +404,11 @@
 
     .order-note::before {
       content: "";
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      bottom: 22px;
+      width: 7px;
       border-radius: 999px;
       background: var(--terra);
     }
@@ -432,9 +419,20 @@
       color: var(--ink);
     }
 
+    .order-note > div {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      max-width: none;
+    }
+
     .order-note span {
+      display: block;
       color: var(--muted);
       line-height: 1.55;
+      white-space: normal;
+      overflow-wrap: normal;
+      word-break: normal;
     }
 
     /* =========================================================
@@ -750,6 +748,7 @@
       .hero-photo img {
         min-height: 44svh;
         max-height: 52svh;
+        object-fit: cover;
       }
 
       .hero-copy {
@@ -796,14 +795,19 @@
       }
 
       .hero-photo {
-        min-height: 43svh;
+        min-height: 0;
+        height: auto;
+        aspect-ratio: 16 / 10;
       }
 
       .hero-photo img {
-        min-height: 43svh;
-        height: 43svh;
-        object-position: center center;
-        content: url("bilder/titelbild-mobile.png");
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        max-height: none;
+        object-fit: cover;
+        object-position: center 56%;
+        content: normal;
       }
 
       .photo-caption {
@@ -884,12 +888,22 @@
         grid-template-columns: 1fr;
       }
 
-      .menu-jump {
-        display: none;
-      }
-
       .order-note {
         margin-bottom: 56px;
+        padding: 20px 18px 20px 42px;
+      }
+
+      .order-note::before {
+        left: 18px;
+        top: 20px;
+        bottom: 20px;
+        width: 6px;
+      }
+
+      .order-note strong,
+      .order-note span {
+        width: 100%;
+        max-width: none;
       }
 
       .section {
@@ -915,9 +929,19 @@
         order: 0;
       }
 
-      .food-image img {
+      .food-image {
+        width: 100%;
         min-height: 0;
         aspect-ratio: 16 / 10;
+      }
+
+      .food-image img {
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        aspect-ratio: auto;
+        object-fit: cover;
+        object-position: center center;
       }
 
       .food-row.feature {
@@ -1064,14 +1088,9 @@
           <button class="lang-btn" type="button" data-lang="en">English</button>
         </div>
 
-        <nav class="menu-jump" aria-label="Schnellnavigation">
-          <a href="#drinks" title="Getränke">D</a>
-          <a href="#food" title="Speisen">F</a>
-        </nav>
       </div>
 
       <aside class="order-note reveal">
-        <div></div>
         <div>
           <strong
             data-de="So bestellen Sie:"
